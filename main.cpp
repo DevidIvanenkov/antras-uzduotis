@@ -26,7 +26,7 @@ int main() {
         cout << "Pasirinkite veiksma (1-7): ";
 
         if (!(cin >> choice)) {
-            cout << "Neteisinga ivestis. Bandykite dar karta.\n";
+            cout << "Neteisinga ivestis.\n";
             cin.clear();
             cin.ignore(10000, '\n');
             continue;
@@ -35,66 +35,112 @@ int main() {
         switch (choice) {
             case 1: {
                 if (studentCount >= MAX_STUDENTS) {
-                    cout << "Pasiektas maksimalus mokiniu limitas (100).\n";
+                    cout << "Pasiektas limitas.\n";
                     break;
                 }
-                cout << "Iveskite mokinio varda: ";
+                cout << "Vardas: ";
                 cin >> names[studentCount];
 
                 int gCount;
-                cout << "Kiek pazymiu norite ivesti (iki 10)? ";
+                cout << "Kiek pazymiu (iki 10)? ";
                 cin >> gCount;
-
                 while (gCount < 1 || gCount > MAX_GRADES) {
-                    cout << "Neteisingas pazymiu skaicius. Iveskite nuo 1 iki 10: ";
+                    cout << "Neteisinga. Iveskite nuo 1 iki 10: ";
                     cin >> gCount;
                 }
 
                 gradeCounts[studentCount] = gCount;
-                cout << "Iveskite " << gCount << " pazymius (skaiciai nuo 1 iki 10):\n";
+                cout << "Iveskite pazymius (1-10):\n";
                 for (int i = 0; i < gCount; i++) {
-                    int grade;
-                    cin >> grade;
-                    while (grade < 1 || grade > 10) {
-                        cout << "Neteisingas pazymys (" << grade << "). Iveskite pazymi nuo 1 iki 10: ";
-                        cin >> grade;
+                    cin >> grades[studentCount][i];
+                    while (grades[studentCount][i] < 1 || grades[studentCount][i] > 10) {
+                        cout << "Neteisingas pazymys, bandykite vėl: ";
+                        cin >> grades[studentCount][i];
                     }
-                    grades[studentCount][i] = grade;
                 }
                 studentCount++;
-                cout << "Mokinys sekmingai pridetas!\n";
+                cout << "Prideta!\n";
                 break;
             }
             case 2: {
                 if (studentCount == 0) {
-                    cout << "Sarase nera mokiniu.\n";
+                    cout << "Nera mokiniu.\n";
                     break;
                 }
-                cout << "\n--- VISU MOKINIU PAZYMIAI ---\n";
                 for (int i = 0; i < studentCount; i++) {
                     cout << i + 1 << ". " << names[i] << " - Pazymiai: ";
-                    if (gradeCounts[i] == 0) {
-                        cout << "nera pazymiu";
-                    } else {
-                        for (int j = 0; j < gradeCounts[i]; j++) {
-                            cout << grades[i][j] << " ";
-                        }
+                    for (int j = 0; j < gradeCounts[i]; j++) {
+                        cout << grades[i][j] << " ";
                     }
                     cout << endl;
                 }
                 break;
             }
-            case 3:
-            case 4:
+            case 3: {
+                if (studentCount == 0) {
+                    cout << "Nera mokiniu.\n";
+                    break;
+                }
+                int sNum;
+                cout << "Mokinio numeris (1-" << studentCount << "): ";
+                cin >> sNum;
+                if (sNum < 1 || sNum > studentCount) {
+                    cout << "Neteisingas numeris.\n";
+                    break;
+                }
+                int idx = sNum - 1;
+                cout << names[idx] << " pazymiai: ";
+                for (int j = 0; j < gradeCounts[idx]; j++) {
+                    cout << grades[idx][j] << " ";
+                }
+                cout << endl;
+                break;
+            }
+            case 4: {
+                if (studentCount == 0) {
+                    cout << "Nera mokiniu.\n";
+                    break;
+                }
+                int sNum;
+                cout << "Mokinio numeris (1-" << studentCount << "): ";
+                cin >> sNum;
+                if (sNum < 1 || sNum > studentCount) {
+                    cout << "Neteisingas numeris.\n";
+                    break;
+                }
+                int idx = sNum - 1;
+                if (gradeCounts[idx] == 0) {
+                    cout << "Mokinys neturi pazymiu.\n";
+                    break;
+                }
+
+                int gNum;
+                cout << "Pazymio numeris (1-" << gradeCounts[idx] << "): ";
+                cin >> gNum;
+                if (gNum < 1 || gNum > gradeCounts[idx]) {
+                    cout << "Neteisingas numeris.\n";
+                    break;
+                }
+                int gIdx = gNum - 1;
+
+                cout << "Naujas pazymys (1-10): ";
+                cin >> grades[idx][gIdx];
+                while (grades[idx][gIdx] < 1 || grades[idx][gIdx] > 10) {
+                    cout << "Neteisinga, ivaskite nuo 1 iki 10: ";
+                    cin >> grades[idx][gIdx];
+                }
+                cout << "Atnaujinta!\n";
+                break;
+            }
             case 5:
             case 6:
-                cout << "Funkcija veliau bus realizuota.\n";
+                cout << "Bus veliau.\n";
                 break;
             case 7:
-                cout << "Programa baigia darba. Viso gero!\n";
+                cout << "Viso gero!\n";
                 break;
             default:
-                cout << "Neteisingas pasirinkimas. Pasirinkite nuo 1 iki 7.\n";
+                cout << "Neteisingas pasirinkimas.\n";
         }
     } while (choice != 7);
 
