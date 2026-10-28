@@ -4,16 +4,19 @@
 
 using namespace std;
 
+// limitai
 const int MAX_STUDENTS = 100;
 const int MAX_GRADES = 10;
 
 int main() {
+    // pagrindines duomenu strukturos
     string names[MAX_STUDENTS];
     int grades[MAX_STUDENTS][MAX_GRADES];
     int gradeCounts[MAX_STUDENTS] = {0};
     int studentCount = 0;
     int choice;
 
+    // funkcija patikrinti, ar sarase yra mokiniu
     auto checkStudents = [&]() {
         if (studentCount == 0) {
             cout << "Sarase nera mokiniu.\n";
@@ -22,6 +25,7 @@ int main() {
         return true;
     };
 
+    // funkcija saugiam mokinio numerio nuskaitymui
     auto getStudentIdx = [&]() {
         int sNum;
         cout << "Iveskite mokinio numeri (nuo 1 iki " << studentCount << "): ";
@@ -33,6 +37,7 @@ int main() {
         return sNum - 1;
     };
 
+    // pagrindinis programos ciklas
     do {
         cout << "\n--- MOKINIU PAZYMIU SISTEMA ---\n";
         cout << "1. Ivesti mokini ir jo pazymius.\n";
@@ -44,6 +49,7 @@ int main() {
         cout << "7. Iseiti.\n";
         cout << "Pasirinkite veiksma (1-7): ";
 
+        // apsauga nuo neteisingos ivesties (pvz. raidziu vietoje skaiciu)
         if (!(cin >> choice)) {
             cout << "Neteisinga ivestis. Bandykite dar karta.\n";
             cin.clear();
@@ -52,7 +58,7 @@ int main() {
         }
 
         switch (choice) {
-            case 1: {
+            case 1: { // naujo mokinio pridedimas
                 if (studentCount >= MAX_STUDENTS) {
                     cout << "Pasiektas maksimalus mokiniu limitas (100).\n";
                     break;
@@ -83,7 +89,7 @@ int main() {
                 cout << "Mokinys sekmingai pridetas!\n";
                 break;
             }
-            case 2: {
+            case 2: { // visu mokiniu perziura
                 if (!checkStudents()) break;
                 cout << "\n--- VISU MOKINIU PAZYMIAI ---\n";
                 for (int i = 0; i < studentCount; i++) {
@@ -99,7 +105,7 @@ int main() {
                 }
                 break;
             }
-            case 3: {
+            case 3: { // konkretaus mokinio perziura
                 if (!checkStudents()) break;
                 int idx = getStudentIdx();
                 cout << "Mokinys: " << names[idx] << "\nPazymiai: ";
@@ -113,7 +119,7 @@ int main() {
                 cout << endl;
                 break;
             }
-            case 4: {
+            case 4: { // pazymio atnaujinimas
                 if (!checkStudents()) break;
                 int idx = getStudentIdx();
                 if (gradeCounts[idx] == 0) {
@@ -142,7 +148,7 @@ int main() {
                 cout << "Pazymys sekmingai atnaujintas!\n";
                 break;
             }
-            case 5: {
+            case 5: { // vidurkio skaiciavimas
                 if (!checkStudents()) break;
                 int idx = getStudentIdx();
                 if (gradeCounts[idx] == 0) {
@@ -158,7 +164,7 @@ int main() {
                 }
                 break;
             }
-            case 6: {
+            case 6: { // mokinio pasalinas
                 if (!checkStudents()) break;
                 int idx = getStudentIdx();
                 for (int i = idx; i < studentCount - 1; i++) {
@@ -172,7 +178,7 @@ int main() {
                 cout << "Mokinys sekmingai pasalintas, o sarasas atnaujintas.\n";
                 break;
             }
-            case 7:
+            case 7: // iseiti
                 cout << "Programa baigia darba. Viso gero!\n";
                 break;
             default:
